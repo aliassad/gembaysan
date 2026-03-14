@@ -1,381 +1,409 @@
-import React, { useState, useEffect } from 'react';
-import { 
-  ArrowRight, Globe, Shield, Server, 
-  Sun, Moon, Linkedin, Github, Mail, 
-  Activity, Terminal, Layers, Search, MapPin, ExternalLink,
-  Cpu, Lock, Briefcase, ChevronRight, Menu, X
-} from 'lucide-react';
-
-const App = () => {
-  const [isScrolled, setIsScrolled] = useState(false);
-  const [isDarkMode, setIsDarkMode] = useState(false);
-  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
-  const [formStatus, setFormStatus] = useState(null);
-
-  useEffect(() => {
-    const handleScroll = () => {
-      setIsScrolled(window.scrollY > 50);
-      const reveals = document.querySelectorAll(".reveal");
-      reveals.forEach(el => {
-        const rect = el.getBoundingClientRect();
-        if (rect.top < window.innerHeight * 0.9) {
-          el.classList.add("active");
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gem Baysan | Strategic IT Systems Leader</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['Inter', 'system-ui', 'sans-serif'],
+                    },
+                }
+            }
         }
-      });
-    };
-    window.addEventListener('scroll', handleScroll);
-    handleScroll();
-    return () => window.removeEventListener('scroll', handleScroll);
-  }, []);
-
-  useEffect(() => {
-    if (isDarkMode) document.documentElement.classList.add('dark');
-    else document.documentElement.classList.remove('dark');
-  }, [isDarkMode]);
-
-  // Prevent scroll when mobile menu is open
-  useEffect(() => {
-    if (isMobileMenuOpen) {
-      document.body.style.overflow = 'hidden';
-    } else {
-      document.body.style.overflow = 'unset';
-    }
-  }, [isMobileMenuOpen]);
-
-  const GeometricDivider = ({ topColor, bottomColor, reversed = false }) => (
-    <div className="relative h-20 md:h-32 w-full overflow-hidden pointer-events-none">
-      <div className={`absolute inset-0 ${topColor}`}></div>
-      <div 
-        className={`absolute inset-0 ${bottomColor}`} 
-        style={{ clipPath: reversed ? 'polygon(0 100%, 100% 0, 100% 100%)' : 'polygon(0 0, 100% 100%, 0 100%)' }}
-      ></div>
-      <div 
-        className="absolute inset-0 opacity-10 bg-sky-600"
-        style={{ 
-          clipPath: reversed 
-            ? 'polygon(100% 0, 100% 1px, 1px 100%, 0 100%)' 
-            : 'polygon(0 0, 0 1px, calc(100% - 1px) 100%, 100% 100%)' 
-        }}
-      ></div>
-    </div>
-  );
-
-  const navLinks = [
-    { name: 'Expertise', href: '#strategy' },
-    { name: 'Strategy', href: '#strategy' },
-    { name: 'Contact', href: '#contact' },
-  ];
-
-  return (
-    <div className="min-h-screen bg-slate-50 dark:bg-slate-950 transition-colors duration-500 font-sans selection:bg-sky-500 selection:text-white overflow-x-hidden text-slate-900 dark:text-slate-100">
-      
-      {/* Navigation */}
-      <nav className={`fixed top-0 left-0 right-0 z-[100] transition-all duration-500 ${isScrolled || isMobileMenuOpen ? 'bg-white/95 dark:bg-slate-950/95 backdrop-blur-md border-b border-slate-200 dark:border-slate-800 py-3' : 'bg-transparent py-6'}`}>
-        <div className="max-w-7xl mx-auto px-6 flex items-center justify-between">
-          <div className="flex items-center gap-4 group cursor-pointer" onClick={() => { window.scrollTo({top: 0, behavior: 'smooth'}); setIsMobileMenuOpen(false); }}>
-            <div className="bg-slate-950 dark:bg-sky-500 text-white w-10 h-10 flex items-center justify-center font-black transition-all group-hover:bg-sky-600 shadow-sm">GB</div>
-            <div className="flex flex-col">
-              <span className="font-black text-lg tracking-tighter uppercase leading-none text-slate-900 dark:text-white">Gem Baysan</span>
-              <span className="text-[9px] font-bold text-sky-600 dark:text-sky-400 uppercase tracking-[0.3em] mt-1">Systems Architecture</span>
-            </div>
-          </div>
-
-          {/* Desktop Menu */}
-          <div className="hidden md:flex items-center gap-10">
-            {navLinks.map((link) => (
-              <a key={link.name} href={link.href} className="text-[10px] font-black uppercase tracking-[0.2em] text-slate-500 hover:text-sky-600 dark:hover:text-sky-400 transition-colors">
-                {link.name}
-              </a>
-            ))}
-            <button onClick={() => setIsDarkMode(!isDarkMode)} className="w-10 h-10 rounded-full flex items-center justify-center border border-slate-200 dark:border-slate-800 text-slate-500 hover:bg-slate-100 dark:hover:bg-slate-900 transition-all">
-              {isDarkMode ? <Sun size={18} /> : <Moon size={18} />}
-            </button>
-            <a href="#contact" className="bg-slate-950 dark:bg-sky-500 text-white px-6 py-2.5 text-[10px] font-black uppercase tracking-widest hover:bg-sky-600 dark:hover:bg-sky-400 transition-all shadow-lg">
-              Contact
-            </a>
-          </div>
-
-          {/* Mobile Menu Toggle */}
-          <div className="flex items-center gap-4 md:hidden">
-            <button onClick={() => setIsDarkMode(!isDarkMode)} className="w-10 h-10 flex items-center justify-center text-slate-500 border border-slate-200 dark:border-slate-800 rounded-full">
-              {isDarkMode ? <Sun size={18} /> : <Moon size={18} />}
-            </button>
-            <button onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)} className="text-slate-900 dark:text-white p-1">
-              {isMobileMenuOpen ? <X size={28} /> : <Menu size={28} />}
-            </button>
-          </div>
-        </div>
-
-        {/* Mobile Menu Overlay */}
-        <div className={`fixed inset-0 top-[65px] bg-white dark:bg-slate-950 z-50 md:hidden transition-transform duration-500 ease-in-out ${isMobileMenuOpen ? 'translate-x-0' : 'translate-x-full'}`}>
-          <div className="flex flex-col h-full p-8 space-y-8">
-            {navLinks.map((link) => (
-              <a 
-                key={link.name} 
-                href={link.href} 
-                onClick={() => setIsMobileMenuOpen(false)}
-                className="text-4xl font-black uppercase tracking-tighter text-slate-900 dark:text-white border-b border-slate-100 dark:border-slate-900 pb-4"
-              >
-                {link.name}
-              </a>
-            ))}
-            <div className="pt-8">
-              <a 
-                href="#contact" 
-                onClick={() => setIsMobileMenuOpen(false)}
-                className="block w-full text-center bg-sky-600 text-white py-6 font-black uppercase tracking-[0.2em] text-sm"
-              >
-                Get in Touch
-              </a>
-            </div>
-            <div className="mt-auto pb-12 flex gap-6">
-                <a href="#" className="text-slate-400 hover:text-sky-600 transition-colors"><Linkedin size={24} /></a>
-                <a href="#" className="text-slate-400 hover:text-sky-600 transition-colors"><Github size={24} /></a>
-                <a href="#" className="text-slate-400 hover:text-sky-600 transition-colors"><Mail size={24} /></a>
-            </div>
-          </div>
-        </div>
-      </nav>
-
-      {/* Hero Section */}
-      <section className="relative min-h-screen flex items-center px-6 pt-20 overflow-hidden bg-white dark:bg-slate-950">
-        <div className="absolute inset-0 opacity-[0.04] dark:opacity-[0.07] pointer-events-none" style={{ backgroundImage: 'linear-gradient(#000 1px, transparent 1px), linear-gradient(90deg, #000 1px, transparent 1px)', backgroundSize: '60px 60px' }}></div>
+    </script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;700;900&display=swap');
         
-        <div className="max-w-7xl mx-auto w-full grid grid-cols-1 lg:grid-cols-12 gap-16 items-center relative z-10">
-          <div className="lg:col-span-7">
-            <div className="reveal active flex items-center gap-3 mb-8">
-              <span className="h-[2px] w-12 bg-sky-600"></span>
-              <span className="text-[10px] font-black uppercase tracking-[0.5em] text-sky-600">PMP® CERTIFIED SYSTEMS LEADER</span>
-            </div>
-            
-            <h1 className="reveal active text-5xl md:text-7xl lg:text-8xl font-black tracking-tighter leading-[0.95] mb-10 text-slate-900 dark:text-white">
-              STRATEGIC<br />
-              <span className="text-sky-600">IT SYSTEMS</span><br />
-              LEADER.
-            </h1>
-
-            <div className="reveal active flex flex-col md:flex-row gap-10 items-start md:items-center">
-              <p className="text-lg md:text-xl text-slate-600 dark:text-slate-400 max-w-md font-medium leading-relaxed border-l-4 border-sky-600 pl-8">
-                Defining digital resilience for 27 years. Precision orchestration in Cybersecurity and Global Enterprise Cloud.
-              </p>
-              <div className="hidden sm:flex flex-col gap-2">
-                <div className="flex items-center gap-3 text-[10px] font-black uppercase tracking-widest text-slate-400">
-                  <Activity size={14} className="text-sky-600" /> Availability 99.99%
-                </div>
-                <div className="flex items-center gap-3 text-[10px] font-black uppercase tracking-widest text-slate-400">
-                  <Shield size={14} className="text-sky-600" /> Zero-Trust Ready
-                </div>
-              </div>
-            </div>
-            
-            <div className="reveal active mt-16 flex flex-wrap gap-6">
-              <a href="#contact" className="px-10 py-5 bg-slate-950 dark:bg-sky-600 text-white font-black text-xs uppercase tracking-[0.2em] hover:bg-sky-600 dark:hover:bg-sky-500 transition-all shadow-xl flex items-center gap-3 group w-full sm:w-auto justify-center">
-                Contact Me <ArrowRight size={16} className="group-hover:translate-x-1 transition-transform" />
-              </a>
-              <a href="#strategy" className="px-10 py-5 border-2 border-slate-900 dark:border-slate-700 font-black text-xs uppercase tracking-[0.2em] hover:bg-slate-900 hover:text-white dark:hover:bg-slate-700 transition-all w-full sm:w-auto text-center">
-                My Strategy
-              </a>
-            </div>
-          </div>
-
-          <div className="lg:col-span-5 relative hidden lg:block">
-            <div className="relative group">
-              <div className="absolute -inset-4 border border-slate-200 dark:border-slate-800 -z-10 group-hover:scale-[1.02] transition-transform duration-700"></div>
-              <div className="absolute top-0 right-0 w-24 h-24 border-t border-r border-sky-600 -translate-y-2 translate-x-2"></div>
-              
-              <div className="relative overflow-hidden shadow-2xl bg-slate-100 dark:bg-slate-900">
-                <img 
-                    src="profile.jpeg" 
-                    alt="Gem Baysan" 
-                    className="w-full aspect-[4/5] object-cover grayscale-[0.3] hover:grayscale-0 transition-all duration-1000"
-                />
-                
-                <div className="absolute bottom-6 left-6 right-6 p-6 bg-white/90 dark:bg-slate-950/90 backdrop-blur-xl border border-white/20 shadow-2xl flex justify-between items-center text-slate-900 dark:text-white">
-                    <div>
-                        <p className="text-[10px] font-black text-sky-600 uppercase tracking-widest mb-1">Systems Architect</p>
-                        <p className="text-2xl font-black tracking-tighter uppercase">Gem Baysan</p>
-                    </div>
-                    <div className="h-10 w-10 rounded-full border border-slate-200 dark:border-slate-800 flex items-center justify-center">
-                        <Terminal size={18} />
-                    </div>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      {/* Transition: White -> Slate */}
-      <GeometricDivider topColor="bg-white dark:bg-slate-950" bottomColor="bg-slate-100 dark:bg-slate-900" />
-
-      {/* Strategy Section */}
-      <section id="strategy" className="py-24 px-6 bg-slate-100 dark:bg-slate-900 relative">
-        <div className="max-w-7xl mx-auto relative z-10">
-          <div className="grid lg:grid-cols-2 gap-20 items-end mb-24 reveal">
-            <div>
-              <h2 className="text-4xl md:text-6xl font-black tracking-tighter mb-8 uppercase text-slate-900 dark:text-white">
-                STRATEGIC<br />GOVERNANCE.
-              </h2>
-              <div className="h-1.5 w-24 bg-sky-600"></div>
-            </div>
-            <p className="text-slate-500 dark:text-slate-400 text-lg md:text-xl font-medium leading-relaxed">
-              Applying PMP frameworks to complex infrastructure challenges. We engineer resilience, scalability, and ROI into every system architecture.
-            </p>
-          </div>
-
-          <div className="grid md:grid-cols-3 gap-px bg-slate-200 dark:bg-slate-800">
-            {[
-              { id: "01", title: "Cybersecurity", desc: "Zero-Trust implementation and threat-hunting.", icon: <Shield size={32}/> },
-              { id: "02", title: "Infrastructure", desc: "Hybrid cloud orchestration & disaster recovery.", icon: <Server size={32}/> },
-              { id: "03", title: "Governance", desc: "PMP-led project management & strategic scaling.", icon: <Briefcase size={32}/> }
-            ].map((item, i) => (
-              <div key={i} className="reveal group p-12 bg-white dark:bg-slate-900 hover:bg-sky-600 hover:text-white transition-all duration-500">
-                <div className="text-sky-600 group-hover:text-white mb-10 transition-colors">
-                  {item.icon}
-                </div>
-                <h3 className="text-2xl font-black uppercase tracking-tight mb-4">{item.title}</h3>
-                <p className="text-slate-500 dark:text-slate-400 group-hover:text-sky-50 font-medium">{item.desc}</p>
-              </div>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      {/* Transition: Slate -> White */}
-      <GeometricDivider topColor="bg-slate-100 dark:bg-slate-900" bottomColor="bg-white dark:bg-slate-950" reversed />
-
-      {/* Contact Section */}
-      <section id="contact" className="py-32 px-6 bg-white dark:bg-slate-950">
-        <div className="max-w-7xl mx-auto">
-          <div className="grid lg:grid-cols-12 gap-16">
-            
-            <div className="lg:col-span-5 reveal">
-                <p className="text-[10px] font-black text-sky-600 uppercase tracking-[0.4em] mb-4">Contact Info</p>
-                <h2 className="text-5xl md:text-7xl font-black tracking-tighter mb-12 text-slate-900 dark:text-white uppercase">GET IN<br/>TOUCH.</h2>
-                
-                <div className="space-y-10">
-                    <div className="flex items-start gap-6 group">
-                        <div className="w-14 h-14 shrink-0 rounded-2xl bg-slate-50 dark:bg-slate-900 border border-slate-200 dark:border-slate-800 flex items-center justify-center text-sky-600 group-hover:bg-sky-600 group-hover:text-white transition-all">
-                            <Mail size={24} />
-                        </div>
-                        <div>
-                            <p className="text-[10px] font-black uppercase tracking-widest text-slate-400 mb-1">Direct Email</p>
-                            <a href="mailto:contact@gembaysan.com" className="text-lg md:text-2xl font-black hover:text-sky-600 transition-colors text-slate-900 dark:text-white break-all">contact@gembaysan.com</a>
-                        </div>
-                    </div>
-
-                    <div className="flex items-start gap-6 group">
-                        <div className="w-14 h-14 shrink-0 rounded-2xl bg-slate-50 dark:bg-slate-900 border border-slate-200 dark:border-slate-800 flex items-center justify-center text-sky-600 group-hover:bg-sky-600 group-hover:text-white transition-all">
-                            <MapPin size={24} />
-                        </div>
-                        <div>
-                            <p className="text-[10px] font-black uppercase tracking-widest text-slate-400 mb-1">Command Center</p>
-                            <p className="text-lg md:text-2xl font-black text-slate-900 dark:text-white">Vancouver, BC, Canada</p>
-                        </div>
-                    </div>
-
-                    <div className="pt-6 flex gap-4">
-                        <a href="https://linkedin.com" target="_blank" className="w-12 h-12 rounded-xl bg-slate-950 text-white flex items-center justify-center hover:bg-sky-600 transition-all shadow-lg"><Linkedin size={20} /></a>
-                        <a href="https://github.com" target="_blank" className="w-12 h-12 rounded-xl bg-slate-950 text-white flex items-center justify-center hover:bg-sky-600 transition-all shadow-lg"><Github size={20} /></a>
-                    </div>
-                </div>
-            </div>
-
-            <div className="lg:col-span-7 reveal">
-                <div className="bg-slate-50 dark:bg-slate-900 p-6 md:p-12 border border-slate-200 dark:border-slate-800 shadow-sm relative">
-                    <div className="absolute top-0 right-0 p-4 border-l border-b border-slate-200 dark:border-slate-800 text-[9px] font-mono text-slate-400 hidden sm:block">MSG_ID: {Math.random().toString(36).substring(7).toUpperCase()}</div>
-                    
-                    <form onSubmit={(e) => { e.preventDefault(); setFormStatus('success'); }} className="space-y-8">
-                        <div className="grid md:grid-cols-2 gap-8">
-                            <div className="space-y-2">
-                                <label className="text-[10px] font-black uppercase tracking-widest text-slate-500">Name</label>
-                                <input type="text" placeholder="Your Name" className="w-full bg-white dark:bg-slate-950 border border-slate-200 dark:border-slate-800 px-6 py-4 focus:outline-none focus:border-sky-600 font-bold text-sm transition-all dark:text-white" required />
-                            </div>
-                            <div className="space-y-2">
-                                <label className="text-[10px] font-black uppercase tracking-widest text-slate-500">Email</label>
-                                <input type="email" placeholder="Email Address" className="w-full bg-white dark:bg-slate-950 border border-slate-200 dark:border-slate-800 px-6 py-4 focus:outline-none focus:border-sky-600 font-bold text-sm transition-all dark:text-white" required />
-                            </div>
-                        </div>
-                        <div className="space-y-2">
-                            <label className="text-[10px] font-black uppercase tracking-widest text-slate-500">Message</label>
-                            <textarea rows="5" placeholder="Project details or questions..." className="w-full bg-white dark:bg-slate-950 border border-slate-200 dark:border-slate-800 px-6 py-4 focus:outline-none focus:border-sky-600 font-bold text-sm resize-none transition-all dark:text-white" required></textarea>
-                        </div>
-                        
-                        <button 
-                            type="submit" 
-                            className="w-full bg-slate-950 dark:bg-sky-600 text-white py-6 font-black uppercase tracking-[0.3em] text-[11px] hover:bg-sky-600 dark:hover:bg-sky-500 transition-all flex items-center justify-center gap-4 group"
-                        >
-                            {formStatus === 'success' ? 'SENT SUCCESSFULLY' : 'SEND MESSAGE'}
-                            <ChevronRight size={18} className="group-hover:translate-x-1 transition-transform" />
-                        </button>
-                    </form>
-                </div>
-            </div>
-
-          </div>
-        </div>
-      </section>
-
-      {/* Footer */}
-      <footer className="bg-slate-950 text-white py-20 px-6">
-        <div className="max-w-7xl mx-auto">
-          <div className="grid md:grid-cols-4 gap-12 mb-16 border-b border-white/10 pb-16">
-            <div className="col-span-1 md:col-span-2">
-                <div className="flex items-center gap-4 mb-6">
-                    <div className="bg-sky-500 text-white w-10 h-10 flex items-center justify-center font-black">GB</div>
-                    <span className="font-black text-2xl tracking-tighter uppercase">Gem Baysan</span>
-                </div>
-                <p className="text-slate-400 font-medium max-w-sm leading-relaxed">
-                    Senior IT Systems Leader focused on enterprise-grade security, governance, and architectural resilience.
-                </p>
-            </div>
-            
-            <div>
-                <h4 className="text-[10px] font-black uppercase tracking-[0.3em] text-sky-500 mb-6">Navigation</h4>
-                <ul className="space-y-4 text-xs font-bold uppercase tracking-widest text-slate-400">
-                    <li><a href="#strategy" className="hover:text-white transition-colors">Expertise</a></li>
-                    <li><a href="#strategy" className="hover:text-white transition-colors">Strategy</a></li>
-                    <li><a href="#contact" className="hover:text-white transition-colors">Contact</a></li>
-                </ul>
-            </div>
-
-            <div>
-                <h4 className="text-[10px] font-black uppercase tracking-[0.3em] text-sky-500 mb-6">Social</h4>
-                <ul className="space-y-4 text-xs font-bold uppercase tracking-widest text-slate-400">
-                    <li><a href="#" className="hover:text-white transition-colors">LinkedIn</a></li>
-                    <li><a href="#" className="hover:text-white transition-colors">Github</a></li>
-                    <li><a href="#" className="hover:text-white transition-colors">Resume PDF</a></li>
-                </ul>
-            </div>
-          </div>
-
-          <div className="flex flex-col md:flex-row justify-between items-center gap-6 text-[9px] font-bold uppercase tracking-[0.4em] text-slate-600">
-            <span>© 2026 GEM BAYSAN // STRATEGIC INFRASTRUCTURE</span>
-            <span className="flex items-center gap-4">
-                <span className="w-2 h-2 rounded-full bg-green-500 animate-pulse"></span>
-                Systems Operational
-            </span>
-            <span>Vancouver, BC // PMP® // ITIL®</span>
-          </div>
-        </div>
-      </footer>
-
-      <style>{`
-        .reveal { opacity: 0; transform: translateY(30px); transition: all 0.8s cubic-bezier(0.23, 1, 0.32, 1); }
-        .reveal.active { opacity: 1; transform: translateY(0); }
+        .reveal { 
+            opacity: 0; 
+            transform: translateY(30px); 
+            transition: all 0.8s cubic-bezier(0.23, 1, 0.32, 1); 
+        }
+        .reveal.active { 
+            opacity: 1; 
+            transform: translateY(0); 
+        }
+        
         html { scroll-behavior: smooth; }
         
-        section::before {
-          content: "";
-          position: absolute;
-          inset: 0;
-          background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E");
-          opacity: 0.02;
-          pointer-events: none;
+        .noise-bg::before {
+            content: "";
+            position: absolute;
+            inset: 0;
+            background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E");
+            opacity: 0.02;
+            pointer-events: none;
+            z-index: 1;
         }
-      `}</style>
-    </div>
-  );
-};
 
-export default App;
+        .clip-path-poly { clip-path: polygon(0 0, 100% 100%, 0 100%); }
+        .clip-path-poly-rev { clip-path: polygon(0 100%, 100% 0, 100% 100%); }
+    </style>
+</head>
+<body class="bg-slate-50 dark:bg-slate-950 transition-colors duration-500 font-sans selection:bg-sky-500 selection:text-white overflow-x-hidden text-slate-900 dark:text-slate-100">
+
+    <!-- Navigation -->
+    <nav id="main-nav" class="fixed top-0 left-0 right-0 z-[100] transition-all duration-500 py-6">
+        <div class="max-w-7xl mx-auto px-6 flex items-center justify-between">
+            <div class="flex items-center gap-4 group cursor-pointer" onclick="window.scrollTo({top: 0, behavior: 'smooth'})">
+                <div class="bg-slate-950 dark:bg-sky-500 text-white w-10 h-10 flex items-center justify-center font-black transition-all group-hover:bg-sky-600 shadow-sm">GB</div>
+                <div class="flex flex-col">
+                    <span class="font-black text-lg tracking-tighter uppercase leading-none text-slate-900 dark:text-white">Gem Baysan</span>
+                    <span class="text-[9px] font-bold text-sky-600 dark:text-sky-400 uppercase tracking-[0.3em] mt-1">Systems Architecture</span>
+                </div>
+            </div>
+
+            <!-- Desktop Menu -->
+            <div class="hidden md:flex items-center gap-10">
+                <a href="#strategy" class="text-[10px] font-black uppercase tracking-[0.2em] text-slate-500 hover:text-sky-600 dark:hover:text-sky-400 transition-colors">Expertise</a>
+                <a href="#strategy" class="text-[10px] font-black uppercase tracking-[0.2em] text-slate-500 hover:text-sky-600 dark:hover:text-sky-400 transition-colors">Strategy</a>
+                <a href="#contact" class="text-[10px] font-black uppercase tracking-[0.2em] text-slate-500 hover:text-sky-600 dark:hover:text-sky-400 transition-colors">Contact</a>
+                <button onclick="toggleTheme()" class="theme-toggle-btn w-10 h-10 rounded-full flex items-center justify-center border border-slate-200 dark:border-slate-800 text-slate-500 hover:bg-slate-100 dark:hover:bg-slate-900 transition-all">
+                    <i class="fa-solid fa-moon dark:hidden"></i>
+                    <i class="fa-solid fa-sun hidden dark:block"></i>
+                </button>
+                <a href="#contact" class="bg-slate-950 dark:bg-sky-500 text-white px-6 py-2.5 text-[10px] font-black uppercase tracking-widest hover:bg-sky-600 dark:hover:bg-sky-400 transition-all shadow-lg">
+                    Contact
+                </a>
+            </div>
+
+            <!-- Mobile Menu Toggles -->
+            <div class="flex items-center gap-4 md:hidden">
+                <button onclick="toggleTheme()" class="w-10 h-10 flex items-center justify-center text-slate-500 border border-slate-200 dark:border-slate-800 rounded-full">
+                    <i class="fa-solid fa-moon dark:hidden"></i>
+                    <i class="fa-solid fa-sun hidden dark:block"></i>
+                </button>
+                <button onclick="toggleMobileMenu()" class="text-slate-900 dark:text-white p-1">
+                    <i id="menu-icon" class="fa-solid fa-bars text-2xl"></i>
+                </button>
+            </div>
+        </div>
+
+        <!-- Mobile Menu Overlay -->
+        <div id="mobile-menu" class="fixed inset-0 top-[65px] bg-white dark:bg-slate-950 z-50 md:hidden transition-transform duration-500 ease-in-out translate-x-full">
+            <div class="flex flex-col h-full p-8 space-y-8">
+                <a href="#strategy" onclick="toggleMobileMenu()" class="text-4xl font-black uppercase tracking-tighter text-slate-900 dark:text-white border-b border-slate-100 dark:border-slate-900 pb-4">Expertise</a>
+                <a href="#strategy" onclick="toggleMobileMenu()" class="text-4xl font-black uppercase tracking-tighter text-slate-900 dark:text-white border-b border-slate-100 dark:border-slate-900 pb-4">Strategy</a>
+                <a href="#contact" onclick="toggleMobileMenu()" class="text-4xl font-black uppercase tracking-tighter text-slate-900 dark:text-white border-b border-slate-100 dark:border-slate-900 pb-4">Contact</a>
+                <div class="pt-8">
+                    <a href="#contact" onclick="toggleMobileMenu()" class="block w-full text-center bg-sky-600 text-white py-6 font-black uppercase tracking-[0.2em] text-sm">Get in Touch</a>
+                </div>
+                <div class="mt-auto pb-12 flex gap-6">
+                    <a href="#" class="text-slate-400 hover:text-sky-600 transition-colors text-2xl"><i class="fa-brands fa-linkedin"></i></a>
+                    <a href="#" class="text-slate-400 hover:text-sky-600 transition-colors text-2xl"><i class="fa-brands fa-github"></i></a>
+                    <a href="#" class="text-slate-400 hover:text-sky-600 transition-colors text-2xl"><i class="fa-solid fa-envelope"></i></a>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section class="noise-bg relative min-h-screen flex items-center px-6 pt-20 overflow-hidden bg-white dark:bg-slate-950">
+        <div class="absolute inset-0 opacity-[0.04] dark:opacity-[0.07] pointer-events-none" style="background-image: linear-gradient(#000 1px, transparent 1px), linear-gradient(90deg, #000 1px, transparent 1px); background-size: 60px 60px;"></div>
+        
+        <div class="max-w-7xl mx-auto w-full grid grid-cols-1 lg:grid-cols-12 gap-16 items-center relative z-10">
+            <div class="lg:col-span-7">
+                <div class="reveal active flex items-center gap-3 mb-8">
+                    <span class="h-[2px] w-12 bg-sky-600"></span>
+                    <span class="text-[10px] font-black uppercase tracking-[0.5em] text-sky-600">PMP® CERTIFIED SYSTEMS LEADER</span>
+                </div>
+                
+                <h1 class="reveal active text-5xl md:text-7xl lg:text-8xl font-black tracking-tighter leading-[0.95] mb-10 text-slate-900 dark:text-white">
+                    STRATEGIC<br />
+                    <span class="text-sky-600">IT SYSTEMS</span><br />
+                    LEADER.
+                </h1>
+
+                <div class="reveal active flex flex-col md:flex-row gap-10 items-start md:items-center">
+                    <p class="text-lg md:text-xl text-slate-600 dark:text-slate-400 max-w-md font-medium leading-relaxed border-l-4 border-sky-600 pl-8">
+                        Defining digital resilience for 27 years. Precision orchestration in Cybersecurity and Global Enterprise Cloud.
+                    </p>
+                    <div class="hidden sm:flex flex-col gap-2">
+                        <div class="flex items-center gap-3 text-[10px] font-black uppercase tracking-widest text-slate-400">
+                            <i class="fa-solid fa-chart-line text-sky-600"></i> Availability 99.99%
+                        </div>
+                        <div class="flex items-center gap-3 text-[10px] font-black uppercase tracking-widest text-slate-400">
+                            <i class="fa-solid fa-shield-halved text-sky-600"></i> Zero-Trust Ready
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="reveal active mt-16 flex flex-wrap gap-6">
+                    <a href="#contact" class="px-10 py-5 bg-slate-950 dark:bg-sky-600 text-white font-black text-xs uppercase tracking-[0.2em] hover:bg-sky-600 dark:hover:bg-sky-500 transition-all shadow-xl flex items-center gap-3 group w-full sm:w-auto justify-center">
+                        Contact Me <i class="fa-solid fa-arrow-right group-hover:translate-x-1 transition-transform"></i>
+                    </a>
+                    <a href="#strategy" class="px-10 py-5 border-2 border-slate-900 dark:border-slate-700 font-black text-xs uppercase tracking-[0.2em] hover:bg-slate-900 hover:text-white dark:hover:bg-slate-700 transition-all w-full sm:w-auto text-center">
+                        My Strategy
+                    </a>
+                </div>
+            </div>
+
+            <div class="lg:col-span-5 relative hidden lg:block">
+                <div class="relative group">
+                    <div class="absolute -inset-4 border border-slate-200 dark:border-slate-800 -z-10 group-hover:scale-[1.02] transition-transform duration-700"></div>
+                    <div class="absolute top-0 right-0 w-24 h-24 border-t border-r border-sky-600 -translate-y-2 translate-x-2"></div>
+                    
+                    <div class="relative overflow-hidden shadow-2xl bg-slate-100 dark:bg-slate-900">
+                        <img 
+                            src="profile.jpeg" 
+                            alt="Gem Baysan" 
+                            class="w-full aspect-[4/5] object-cover grayscale-[0.3] hover:grayscale-0 transition-all duration-1000"
+                        />
+                        
+                        <div class="absolute bottom-6 left-6 right-6 p-6 bg-white/90 dark:bg-slate-950/90 backdrop-blur-xl border border-white/20 shadow-2xl flex justify-between items-center text-slate-900 dark:text-white">
+                            <div>
+                                <p class="text-[10px] font-black text-sky-600 uppercase tracking-widest mb-1">Systems Architect</p>
+                                <p class="text-2xl font-black tracking-tighter uppercase">Gem Baysan</p>
+                            </div>
+                            <div class="h-10 w-10 rounded-full border border-slate-200 dark:border-slate-800 flex items-center justify-center">
+                                <i class="fa-solid fa-terminal text-lg"></i>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Transition Divider -->
+    <div class="relative h-20 md:h-32 w-full overflow-hidden pointer-events-none">
+        <div class="absolute inset-0 bg-white dark:bg-slate-950"></div>
+        <div class="absolute inset-0 bg-slate-100 dark:bg-slate-900 clip-path-poly"></div>
+    </div>
+
+    <!-- Strategy Section -->
+    <section id="strategy" class="noise-bg py-24 px-6 bg-slate-100 dark:bg-slate-900 relative">
+        <div class="max-w-7xl mx-auto relative z-10">
+            <div class="grid lg:grid-cols-2 gap-20 items-end mb-24 reveal">
+                <div>
+                    <h2 class="text-4xl md:text-6xl font-black tracking-tighter mb-8 uppercase text-slate-900 dark:text-white">
+                        STRATEGIC<br />GOVERNANCE.
+                    </h2>
+                    <div class="h-1.5 w-24 bg-sky-600"></div>
+                </div>
+                <p class="text-slate-500 dark:text-slate-400 text-lg md:text-xl font-medium leading-relaxed">
+                    Applying PMP frameworks to complex infrastructure challenges. We engineer resilience, scalability, and ROI into every system architecture.
+                </p>
+            </div>
+
+            <div class="grid md:grid-cols-3 gap-px bg-slate-200 dark:bg-slate-800">
+                <div class="reveal group p-12 bg-white dark:bg-slate-900 hover:bg-sky-600 hover:text-white transition-all duration-500">
+                    <div class="text-sky-600 group-hover:text-white mb-10 transition-colors text-4xl">
+                        <i class="fa-solid fa-shield-halved"></i>
+                    </div>
+                    <h3 class="text-2xl font-black uppercase tracking-tight mb-4">Cybersecurity</h3>
+                    <p class="text-slate-500 dark:text-slate-400 group-hover:text-sky-50 font-medium">Zero-Trust implementation and threat-hunting.</p>
+                </div>
+                <div class="reveal group p-12 bg-white dark:bg-slate-900 hover:bg-sky-600 hover:text-white transition-all duration-500">
+                    <div class="text-sky-600 group-hover:text-white mb-10 transition-colors text-4xl">
+                        <i class="fa-solid fa-server"></i>
+                    </div>
+                    <h3 class="text-2xl font-black uppercase tracking-tight mb-4">Infrastructure</h3>
+                    <p class="text-slate-500 dark:text-slate-400 group-hover:text-sky-50 font-medium">Hybrid cloud orchestration & disaster recovery.</p>
+                </div>
+                <div class="reveal group p-12 bg-white dark:bg-slate-900 hover:bg-sky-600 hover:text-white transition-all duration-500">
+                    <div class="text-sky-600 group-hover:text-white mb-10 transition-colors text-4xl">
+                        <i class="fa-solid fa-briefcase"></i>
+                    </div>
+                    <h3 class="text-2xl font-black uppercase tracking-tight mb-4">Governance</h3>
+                    <p class="text-slate-500 dark:text-slate-400 group-hover:text-sky-50 font-medium">PMP-led project management & strategic scaling.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Transition Divider Reversed -->
+    <div class="relative h-20 md:h-32 w-full overflow-hidden pointer-events-none">
+        <div class="absolute inset-0 bg-slate-100 dark:bg-slate-900"></div>
+        <div class="absolute inset-0 bg-white dark:bg-slate-950 clip-path-poly-rev"></div>
+    </div>
+
+    <!-- Contact Section -->
+    <section id="contact" class="noise-bg py-32 px-6 bg-white dark:bg-slate-950">
+        <div class="max-w-7xl mx-auto">
+            <div class="grid lg:grid-cols-12 gap-16">
+                
+                <div class="lg:col-span-5 reveal">
+                    <p class="text-[10px] font-black text-sky-600 uppercase tracking-[0.4em] mb-4">Contact Info</p>
+                    <h2 class="text-5xl md:text-7xl font-black tracking-tighter mb-12 text-slate-900 dark:text-white uppercase">GET IN<br/>TOUCH.</h2>
+                    
+                    <div class="space-y-10">
+                        <div class="flex items-start gap-6 group">
+                            <div class="w-14 h-14 shrink-0 rounded-2xl bg-slate-50 dark:bg-slate-900 border border-slate-200 dark:border-slate-800 flex items-center justify-center text-sky-600 group-hover:bg-sky-600 group-hover:text-white transition-all">
+                                <i class="fa-solid fa-envelope text-xl"></i>
+                            </div>
+                            <div>
+                                <p class="text-[10px] font-black uppercase tracking-widest text-slate-400 mb-1">Direct Email</p>
+                                <a href="mailto:contact@gembaysan.com" class="text-lg md:text-2xl font-black hover:text-sky-600 transition-colors text-slate-900 dark:text-white break-all">contact@gembaysan.com</a>
+                            </div>
+                        </div>
+
+                        <div class="flex items-start gap-6 group">
+                            <div class="w-14 h-14 shrink-0 rounded-2xl bg-slate-50 dark:bg-slate-900 border border-slate-200 dark:border-slate-800 flex items-center justify-center text-sky-600 group-hover:bg-sky-600 group-hover:text-white transition-all">
+                                <i class="fa-solid fa-location-dot text-xl"></i>
+                            </div>
+                            <div>
+                                <p class="text-[10px] font-black uppercase tracking-widest text-slate-400 mb-1">Command Center</p>
+                                <p class="text-lg md:text-2xl font-black text-slate-900 dark:text-white">Vancouver, BC, Canada</p>
+                            </div>
+                        </div>
+
+                        <div class="pt-6 flex gap-4">
+                            <a href="#" class="w-12 h-12 rounded-xl bg-slate-950 text-white flex items-center justify-center hover:bg-sky-600 transition-all shadow-lg text-xl"><i class="fa-brands fa-linkedin"></i></a>
+                            <a href="#" class="w-12 h-12 rounded-xl bg-slate-950 text-white flex items-center justify-center hover:bg-sky-600 transition-all shadow-lg text-xl"><i class="fa-brands fa-github"></i></a>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="lg:col-span-7 reveal">
+                    <div class="bg-slate-50 dark:bg-slate-900 p-6 md:p-12 border border-slate-200 dark:border-slate-800 shadow-sm relative">
+                        <form id="contact-form" class="space-y-8">
+                            <div class="grid md:grid-cols-2 gap-8">
+                                <div class="space-y-2">
+                                    <label class="text-[10px] font-black uppercase tracking-widest text-slate-500">Name</label>
+                                    <input type="text" placeholder="Your Name" class="w-full bg-white dark:bg-slate-950 border border-slate-200 dark:border-slate-800 px-6 py-4 focus:outline-none focus:border-sky-600 font-bold text-sm transition-all dark:text-white" required>
+                                </div>
+                                <div class="space-y-2">
+                                    <label class="text-[10px] font-black uppercase tracking-widest text-slate-500">Email</label>
+                                    <input type="email" placeholder="Email Address" class="w-full bg-white dark:bg-slate-950 border border-slate-200 dark:border-slate-800 px-6 py-4 focus:outline-none focus:border-sky-600 font-bold text-sm transition-all dark:text-white" required>
+                                </div>
+                            </div>
+                            <div class="space-y-2">
+                                <label class="text-[10px] font-black uppercase tracking-widest text-slate-500">Message</label>
+                                <textarea rows="5" placeholder="Project details or questions..." class="w-full bg-white dark:bg-slate-950 border border-slate-200 dark:border-slate-800 px-6 py-4 focus:outline-none focus:border-sky-600 font-bold text-sm resize-none transition-all dark:text-white" required></textarea>
+                            </div>
+                            
+                            <button type="submit" class="w-full bg-slate-950 dark:bg-sky-600 text-white py-6 font-black uppercase tracking-[0.3em] text-[11px] hover:bg-sky-600 dark:hover:bg-sky-500 transition-all flex items-center justify-center gap-4 group">
+                                <span id="submit-text">SEND MESSAGE</span>
+                                <i class="fa-solid fa-chevron-right group-hover:translate-x-1 transition-transform"></i>
+                            </button>
+                        </form>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="bg-slate-950 text-white py-20 px-6">
+        <div class="max-w-7xl mx-auto">
+            <div class="grid md:grid-cols-4 gap-12 mb-16 border-b border-white/10 pb-16">
+                <div class="col-span-1 md:col-span-2">
+                    <div class="flex items-center gap-4 mb-6">
+                        <div class="bg-sky-500 text-white w-10 h-10 flex items-center justify-center font-black">GB</div>
+                        <span class="font-black text-2xl tracking-tighter uppercase">Gem Baysan</span>
+                    </div>
+                    <p class="text-slate-400 font-medium max-w-sm leading-relaxed">
+                        Senior IT Systems Leader focused on enterprise-grade security, governance, and architectural resilience.
+                    </p>
+                </div>
+                
+                <div>
+                    <h4 class="text-[10px] font-black uppercase tracking-[0.3em] text-sky-500 mb-6">Navigation</h4>
+                    <ul class="space-y-4 text-xs font-bold uppercase tracking-widest text-slate-400">
+                        <li><a href="#strategy" class="hover:text-white transition-colors">Expertise</a></li>
+                        <li><a href="#strategy" class="hover:text-white transition-colors">Strategy</a></li>
+                        <li><a href="#contact" class="hover:text-white transition-colors">Contact</a></li>
+                    </ul>
+                </div>
+
+                <div>
+                    <h4 class="text-[10px] font-black uppercase tracking-[0.3em] text-sky-500 mb-6">Social</h4>
+                    <ul class="space-y-4 text-xs font-bold uppercase tracking-widest text-slate-400">
+                        <li><a href="#" class="hover:text-white transition-colors">LinkedIn</a></li>
+                        <li><a href="#" class="hover:text-white transition-colors">Github</a></li>
+                        <li><a href="#" class="hover:text-white transition-colors">Resume PDF</a></li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="flex flex-col md:flex-row justify-between items-center gap-6 text-[9px] font-bold uppercase tracking-[0.4em] text-slate-600">
+                <span>© 2026 GEM BAYSAN // STRATEGIC INFRASTRUCTURE</span>
+                <span class="flex items-center gap-4">
+                    <span class="w-2 h-2 rounded-full bg-green-500 animate-pulse"></span>
+                    Systems Operational
+                </span>
+                <span>Vancouver, BC // PMP® // ITIL®</span>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // Scroll Management
+        window.addEventListener('scroll', () => {
+            const nav = document.getElementById('main-nav');
+            if (window.scrollY > 50) {
+                nav.classList.add('bg-white/95', 'dark:bg-slate-950/95', 'backdrop-blur-md', 'border-b', 'border-slate-200', 'dark:border-slate-800', 'py-3');
+                nav.classList.remove('bg-transparent', 'py-6');
+            } else {
+                if (!document.getElementById('mobile-menu').classList.contains('translate-x-0')) {
+                    nav.classList.remove('bg-white/95', 'dark:bg-slate-950/95', 'backdrop-blur-md', 'border-b', 'border-slate-200', 'dark:border-slate-800', 'py-3');
+                    nav.classList.add('bg-transparent', 'py-6');
+                }
+            }
+
+            // Intersection Reveal Logic
+            const reveals = document.querySelectorAll(".reveal");
+            reveals.forEach(el => {
+                const rect = el.getBoundingClientRect();
+                if (rect.top < window.innerHeight * 0.9) {
+                    el.classList.add("active");
+                }
+            });
+        });
+
+        // Theme Management
+        function toggleTheme() {
+            document.documentElement.classList.toggle('dark');
+        }
+
+        // Mobile Menu Management
+        function toggleMobileMenu() {
+            const menu = document.getElementById('mobile-menu');
+            const icon = document.getElementById('menu-icon');
+            const nav = document.getElementById('main-nav');
+            const isOpening = menu.classList.contains('translate-x-full');
+
+            if (isOpening) {
+                menu.classList.remove('translate-x-full');
+                menu.classList.add('translate-x-0');
+                icon.classList.remove('fa-bars');
+                icon.classList.add('fa-xmark');
+                nav.classList.add('bg-white/95', 'dark:bg-slate-950/95', 'border-b');
+                document.body.style.overflow = 'hidden';
+            } else {
+                menu.classList.add('translate-x-full');
+                menu.classList.remove('translate-x-0');
+                icon.classList.add('fa-bars');
+                icon.classList.remove('fa-xmark');
+                if (window.scrollY <= 50) {
+                    nav.classList.remove('bg-white/95', 'dark:bg-slate-950/95', 'border-b');
+                }
+                document.body.style.overflow = 'unset';
+            }
+        }
+
+        // Form Submission
+        document.getElementById('contact-form').addEventListener('submit', function(e) {
+            e.preventDefault();
+            const btn = document.getElementById('submit-text');
+            btn.innerText = 'SENT SUCCESSFULLY';
+            this.reset();
+            setTimeout(() => {
+                btn.innerText = 'SEND MESSAGE';
+            }, 3000);
+        });
+
+        // Initial Reveal Trigger
+        window.dispatchEvent(new Event('scroll'));
+    </script>
+</body>
+</html>
