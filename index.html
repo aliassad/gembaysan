@@ -4,9 +4,6 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Gem Baysan | Strategic IT Systems Leader</title>
-    <meta name="description" content="Portfolio of Gem Baysan, an expert in Cybersecurity & Infrastructure Project Management with 27+ years of experience.">
-    
-    <!-- Tailwind CSS -->
     <script src="https://cdn.tailwindcss.com"></script>
     
     <!-- Fonts -->
@@ -14,7 +11,7 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
 
-    <!-- Icons (Lucide) -->
+    <!-- Icons -->
     <script src="https://unpkg.com/lucide@latest"></script>
 
     <script>
@@ -22,22 +19,16 @@
             darkMode: 'class',
             theme: {
                 extend: {
-                    fontFamily: {
-                        sans: ['Inter', 'sans-serif'],
-                    },
+                    fontFamily: { sans: ['Inter', 'sans-serif'] },
                     animation: {
                         'bounce-slow': 'bounce-slow 5s ease-in-out infinite',
                         'float': 'float 4s ease-in-out infinite',
+                        'fade-in': 'fade-in 0.3s ease-out forwards',
                     },
                     keyframes: {
-                        'bounce-slow': {
-                            '0%, 100%': { transform: 'translateY(0)' },
-                            '50%': { transform: 'translateY(-20px)' },
-                        },
-                        'float': {
-                            '0%, 100%': { transform: 'translate(0, 0)' },
-                            '50%': { transform: 'translate(10px, -10px)' },
-                        }
+                        'bounce-slow': { '0%, 100%': { transform: 'translateY(0)' }, '50%': { transform: 'translateY(-20px)' } },
+                        'float': { '0%, 100%': { transform: 'translate(0, 0)' }, '50%': { transform: 'translate(10px, -10px)' } },
+                        'fade-in': { '0%': { opacity: 0 }, '100%': { opacity: 1 } }
                     }
                 }
             }
@@ -45,32 +36,39 @@
     </script>
 
     <style>
-        .reveal {
-            opacity: 0;
-            transform: translateY(40px);
-            transition: all 1.2s cubic-bezier(0.16, 1, 0.3, 1);
-        }
-        .reveal.active {
-            opacity: 1;
-            transform: translateY(0);
-        }
+        .reveal { opacity: 0; transform: translateY(30px); transition: all 0.8s cubic-bezier(0.16, 1, 0.3, 1); }
+        .reveal.active { opacity: 1; transform: translateY(0); }
         html { scroll-behavior: smooth; }
         
-        /* Custom scrollbar */
-        ::-webkit-scrollbar { width: 8px; }
-        ::-webkit-scrollbar-track { background: #f1f1f1; }
-        ::-webkit-scrollbar-thumb { background: #cbd5e1; border-radius: 10px; }
-        .dark ::-webkit-scrollbar-track { background: #020617; }
-        .dark ::-webkit-scrollbar-thumb { background: #1e293b; }
+        .divider-container { line-height: 0; font-size: 0; overflow: hidden; }
+        .divider-svg { display: block; width: 100%; height: auto; margin-bottom: -1px; }
+
+        .form-input {
+            width: 100%;
+            padding: 1rem;
+            border-radius: 1rem;
+            background: rgba(248, 250, 252, 1);
+            border: 1px solid rgba(226, 232, 240, 1);
+            transition: all 0.3s ease;
+            font-size: 14px;
+        }
+        .dark .form-input {
+            background: rgba(15, 23, 42, 1);
+            border: 1px solid rgba(30, 41, 59, 1);
+            color: white;
+        }
+        .form-input:focus {
+            outline: none;
+            border-color: #0ea5e9;
+            box-shadow: 0 0 0 4px rgba(14, 165, 233, 0.1);
+        }
     </style>
 </head>
-<body class="bg-white dark:bg-slate-950 text-slate-800 dark:text-slate-200 transition-colors duration-700 font-sans selection:bg-sky-500/20 text-[13px] md:text-[14px]">
+<body class="bg-white dark:bg-slate-950 text-slate-800 dark:text-slate-200 transition-colors duration-700 font-sans text-[13px] md:text-[14px]">
 
-    <div id="root">
-        <!-- React will inject here -->
-    </div>
+    <div id="root"></div>
 
-    <!-- React Libraries -->
+    <!-- Correct script order and types for React in HTML -->
     <script src="https://unpkg.com/react@18/umd/react.production.min.js"></script>
     <script src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js"></script>
     <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
@@ -78,38 +76,18 @@
     <script type="text/babel">
         const { useState, useEffect } = React;
 
-        // Optimized Icon Component for CDN version
-        const Icon = ({ name, size = 24, className = "" }) => {
-            useEffect(() => {
-                // Initialize/refresh Lucide icons whenever an icon mounts
-                if (window.lucide) {
-                    window.lucide.createIcons();
-                }
+        const Icon = ({ name, size = 24, className = "", style = {} }) => {
+            useEffect(() => { 
+                if (window.lucide) window.lucide.createIcons(); 
             }, [name]);
-
-            // Map Lucide names to lower-kebab-case as required by data-lucide attribute
             const lucideName = name.replace(/([a-z0-9])([A-Z])/g, '$1-$2').toLowerCase();
-
-            return (
-                <i 
-                    data-lucide={lucideName} 
-                    style={{ width: size, height: size }} 
-                    className={`inline-block ${className}`}
-                ></i>
-            );
+            return <i data-lucide={lucideName} style={{ width: size, height: size, ...style }} className={`inline-block ${className}`}></i>;
         };
 
-        const SectionDivider = ({ fill, bg, inverted = false }) => (
-            <div className={`w-full ${bg} leading-[0] border-none -mt-1`}>
-                <svg 
-                    viewBox="0 0 1200 120" 
-                    preserveAspectRatio="none" 
-                    className={`w-full h-12 md:h-24 ${inverted ? 'rotate-180' : ''}`}
-                >
-                    <path 
-                        d="M0,0V46.29c47.79,22.2,103.59,32.17,158,28,70.36-5.37,136.33-33.31,206.8-37.5,73.84-4.36,147.54,16.88,218.2,35.26,69.27,18,138.3,24.88,209.4,13.08,36.15-6,69.85-17.84,104.45-29.34C989.49,25,1113-1.42,1200,33.33V0Z" 
-                        fill={fill}
-                    ></path>
+        const SectionDivider = ({ fill, bg, inverted = false, extraClass = "" }) => (
+            <div className={`divider-container w-full ${bg} ${extraClass}`}>
+                <svg viewBox="0 0 1200 120" preserveAspectRatio="none" className={`divider-svg h-12 md:h-24 ${inverted ? 'rotate-180' : ''}`}>
+                    <path d="M0,0V46.29c47.79,22.2,103.59,32.17,158,28,70.36-5.37,136.33-33.31,206.8-37.5,73.84-4.36,147.54,16.88,218.2,35.26,69.27,18,138.3,24.88,209.4,13.08,36.15-6,69.85-17.84,104.45-29.34C989.49,25,1113-1.42,1200,33.33V0Z" fill={fill}></path>
                 </svg>
             </div>
         );
@@ -123,8 +101,7 @@
                 const handleScroll = () => {
                     setIsScrolled(window.scrollY > 20);
                     document.querySelectorAll(".reveal").forEach(el => {
-                        const rect = el.getBoundingClientRect();
-                        if (rect.top < window.innerHeight * 0.9) el.classList.add("active");
+                        if (el.getBoundingClientRect().top < window.innerHeight * 0.9) el.classList.add("active");
                     });
                 };
                 window.addEventListener('scroll', handleScroll);
@@ -133,191 +110,138 @@
             }, []);
 
             useEffect(() => {
-                if (isDarkMode) {
-                    document.documentElement.classList.add('dark');
-                } else {
-                    document.documentElement.classList.remove('dark');
-                }
+                isDarkMode ? document.documentElement.classList.add('dark') : document.documentElement.classList.remove('dark');
             }, [isDarkMode]);
+
+            const handleSubmit = (e) => {
+                e.preventDefault();
+                console.log("Form Submitted");
+            };
 
             return (
                 <div className="min-h-screen">
-                    {/* --- Navigation --- */}
-                    <nav className={`fixed top-0 left-0 right-0 z-[100] transition-all duration-300 ${
-                        isScrolled ? 'bg-white/90 dark:bg-slate-950/90 backdrop-blur-md shadow-lg border-b border-slate-200 dark:border-slate-800 py-3' : 'bg-transparent py-6'
-                    }`}>
+                    <nav className={`fixed top-0 left-0 right-0 z-[100] transition-all duration-300 ${isScrolled ? 'bg-white/90 dark:bg-slate-950/90 backdrop-blur-md shadow-lg py-3' : 'bg-transparent py-6'}`}>
                         <div className="max-w-7xl mx-auto px-6 flex items-center justify-between">
-                            <div className="flex items-center gap-3 group cursor-pointer" onClick={() => window.scrollTo(0,0)}>
-                                <div className="bg-slate-950 dark:bg-sky-500 text-white px-2 py-1 rounded-lg text-sm font-black tracking-tighter transition-transform group-hover:rotate-12">GB</div>
+                            <div className="flex items-center gap-3 group cursor-pointer" onClick={() => window.scrollTo({top: 0, behavior: 'smooth'})}>
+                                <div className="bg-slate-950 dark:bg-sky-500 text-white px-2 py-1 rounded-lg text-sm font-black transition-transform group-hover:rotate-12">GB</div>
                                 <div className="flex flex-col leading-none">
-                                    <span className="font-black text-sm tracking-tight text-slate-900 dark:text-white uppercase">Gem Baysan</span>
+                                    <span className="font-black text-sm text-slate-900 dark:text-white uppercase tracking-tight">Gem Baysan</span>
                                     <span className="text-[9px] font-bold text-sky-600 dark:text-sky-400 uppercase tracking-widest mt-0.5">Systems Leader</span>
                                 </div>
                             </div>
 
                             <div className="hidden md:flex items-center gap-8">
-                                {['About', 'Expertise', 'Contact'].map(item => (
-                                    <a key={item} href={`#${item.toLowerCase()}`} className="text-[11px] font-bold uppercase tracking-widest text-slate-500 hover:text-sky-600 dark:hover:text-sky-400 transition-colors">
-                                        {item}
-                                    </a>
-                                ))}
-                                <div className="h-4 w-[1px] bg-slate-200 dark:bg-slate-800"></div>
-                                <button 
-                                    onClick={() => setIsDarkMode(!isDarkMode)} 
-                                    className="p-2 rounded-xl bg-slate-100 dark:bg-slate-900 text-slate-500 hover:text-sky-600 transition-all active:scale-90 border border-slate-200 dark:border-slate-800 flex items-center justify-center"
-                                >
+                                <a href="#expertise" className="text-[11px] font-bold uppercase tracking-widest text-slate-500 hover:text-sky-600 dark:hover:text-sky-400 transition-colors">Expertise</a>
+                                <a href="#contact" className="text-[11px] font-bold uppercase tracking-widest text-slate-500 hover:text-sky-600 dark:hover:text-sky-400 transition-colors">Contact</a>
+                                <button onClick={() => setIsDarkMode(!isDarkMode)} className="p-2 rounded-xl bg-slate-100 dark:bg-slate-900 text-slate-500 hover:text-sky-600 border border-slate-200 dark:border-slate-800 transition-all">
                                     {isDarkMode ? <Icon name="Sun" size={18} /> : <Icon name="Moon" size={18} />}
                                 </button>
-                                <a href="#contact" className="bg-slate-950 dark:bg-white dark:text-slate-950 text-white px-6 py-2.5 rounded-xl text-[10px] font-black uppercase tracking-widest hover:bg-sky-600 dark:hover:bg-sky-100 transition-all shadow-xl shadow-sky-500/10 active:scale-95">
-                                    Get In Touch
-                                </a>
+                                <a href="#contact" className="bg-slate-950 dark:bg-white dark:text-slate-950 text-white px-6 py-2.5 rounded-xl text-[10px] font-black uppercase tracking-widest hover:bg-sky-600 transition-all">Execute Strategy</a>
                             </div>
 
-                            <button onClick={() => setMobileMenuOpen(true)} className="md:hidden p-2 text-slate-900 dark:text-white flex items-center justify-center">
-                                <Icon name="Menu" size={24} />
-                            </button>
+                            <div className="flex md:hidden items-center gap-2">
+                                <button onClick={() => setIsDarkMode(!isDarkMode)} className="p-2 rounded-xl bg-slate-100/50 dark:bg-slate-900/50 text-slate-500 dark:text-slate-400 border border-slate-200 dark:border-slate-800 transition-all">
+                                    {isDarkMode ? <Icon name="Sun" size={20} /> : <Icon name="Moon" size={20} />}
+                                </button>
+                                <button onClick={() => setMobileMenuOpen(true)} className="p-2 text-slate-900 dark:text-white">
+                                    <Icon name="Menu" size={24} />
+                                </button>
+                            </div>
                         </div>
                     </nav>
 
-                    {/* --- Hero Section --- */}
-                   {/* --- Hero Section --- */}
-<section id="home" className="relative pt-32 pb-16 md:pt-48 md:pb-32 px-6 overflow-hidden min-h-screen flex items-center">
-    {/* Background Decorations */}
-    <div className="absolute top-0 left-0 w-full h-full -z-20 opacity-30 dark:opacity-20 pointer-events-none">
-        <div className="absolute top-[10%] left-[5%] w-72 md:w-96 h-72 md:h-96 bg-sky-200 dark:bg-sky-900/30 blur-[80px] md:blur-[100px] rounded-full"></div>
-        <div className="absolute bottom-[10%] right-[5%] w-64 md:w-80 h-64 md:h-80 bg-blue-100 dark:bg-blue-900/20 blur-[80px] md:blur-[100px] rounded-full"></div>
-        <svg className="absolute inset-0 w-full h-full" xmlns="http://www.w3.org/2000/svg">
-            <defs>
-                <pattern id="grid" width="40" height="40" patternUnits="userSpaceOnUse">
-                    <path d="M 40 0 L 0 0 0 40" fill="none" stroke="currentColor" strokeWidth="0.5" className="text-slate-200 dark:text-slate-800" />
-                </pattern>
-            </defs>
-            <rect width="100%" height="100%" fill="url(#grid)" />
-        </svg>
-    </div>
-    
-    <div className="max-w-7xl mx-auto w-full grid grid-cols-1 lg:grid-cols-2 gap-12 md:gap-20 items-center relative z-10">
-        
-        {/* IMAGE BLOCK: order-1 makes it show first on mobile */}
-        <div className="relative reveal active order-1 lg:order-2 w-full max-w-[340px] md:max-w-[500px] mx-auto lg:ml-auto">
-            <div className="relative rounded-[3.5rem] md:rounded-[4rem] overflow-hidden border-[10px] md:border-[12px] border-white dark:border-slate-900 shadow-2xl aspect-[4/5] bg-slate-100 dark:bg-slate-800 group">
-                <div className="absolute inset-0 bg-gradient-to-t from-slate-950/80 via-transparent to-transparent z-10 opacity-60"></div>
-                
-                <div className="absolute inset-0 z-20 pointer-events-none opacity-40 group-hover:opacity-60 transition-opacity">
-                    <svg className="w-full h-full" viewBox="0 0 100 100">
-                        <circle cx="80" cy="20" r="15" fill="none" stroke="white" strokeWidth="0.2" strokeDasharray="1 2" />
-                        <path d="M10 10 L30 10 L30 30" fill="none" stroke="white" strokeWidth="0.2" />
-                        <rect x="70" y="70" width="20" height="20" fill="none" stroke="white" strokeWidth="0.1" />
-                    </svg>
-                </div>
-                
-                <img 
-                    src="profile.jpeg" 
-                    alt="Gem Baysan - IT Systems Leader"
-                    className="w-full h-full object-cover transition-all duration-1000 group-hover:scale-110 brightness-110 grayscale-[0.2] group-hover:grayscale-0"
-                />
-                
-                <div className="absolute bottom-8 left-8 md:bottom-12 md:left-12 z-30">
-                    <div className="bg-white/10 backdrop-blur-xl p-6 md:p-8 rounded-[2rem] md:rounded-[2.5rem] border border-white/20 shadow-2xl transition-transform group-hover:scale-105">
-                        <div className="flex items-center gap-3 mb-2">
-                            <Icon name="Cpu" size={18} className="text-sky-400" />
-                            <span className="text-white text-[10px] font-black uppercase tracking-[0.2em]">Systems Architect</span>
+                    <section id="home" className="relative pt-32 pb-16 md:pt-48 md:pb-32 px-6 overflow-hidden min-h-screen flex items-center bg-white dark:bg-slate-950">
+                        <div className="absolute top-0 left-0 w-full h-full -z-20 opacity-30 dark:opacity-20 pointer-events-none">
+                            <div className="absolute top-[10%] left-[5%] w-72 md:w-96 h-72 md:h-96 bg-sky-200 dark:bg-sky-900/30 blur-[80px] md:blur-[100px] rounded-full"></div>
+                            <div className="absolute bottom-[10%] right-[5%] w-64 md:w-80 h-64 md:h-80 bg-blue-100 dark:bg-blue-900/20 blur-[80px] md:blur-[100px] rounded-full"></div>
+                            <svg className="absolute inset-0 w-full h-full" xmlns="http://www.w3.org/2000/svg">
+                                <defs>
+                                    <pattern id="grid" width="40" height="40" patternUnits="userSpaceOnUse">
+                                        <path d="M 40 0 L 0 0 0 40" fill="none" stroke="currentColor" strokeWidth="0.5" className="text-slate-200 dark:text-slate-800"></path>
+                                    </pattern>
+                                </defs>
+                                <rect width="100%" height="100%" fill="url(#grid)"></rect>
+                            </svg>
                         </div>
-                        <p className="text-white text-2xl md:text-3xl font-black tracking-tighter">Gem Baysan</p>
-                    </div>
-                </div>
-            </div>
 
-            {/* Floating Decorative Icons */}
-            <div className="absolute -top-6 -left-6 md:-top-10 md:-left-10 bg-white dark:bg-slate-900 p-5 md:p-6 rounded-2xl md:rounded-3xl shadow-2xl border border-slate-100 dark:border-slate-800 animate-bounce-slow flex items-center justify-center z-40">
-                <Icon name="Shield" size={28} className="text-sky-600 md:w-8 md:h-8" />
-            </div>
-            <div className="absolute -bottom-4 -right-4 md:-bottom-6 md:-right-6 bg-slate-950 dark:bg-sky-600 p-5 md:p-6 rounded-2xl md:rounded-3xl text-white shadow-2xl animate-float flex items-center justify-center z-40">
-                <Icon name="Lock" size={28} className="md:w-8 md:h-8" />
-            </div>
-        </div>
-
-        {/* TEXT BLOCK: order-2 makes it show second on mobile */}
-        <div className="flex flex-col text-center lg:text-left order-2 lg:order-1 items-center lg:items-start">
-            <div className="reveal active delay-100 inline-flex items-center gap-2 px-3 py-1.5 rounded-lg bg-sky-50 dark:bg-slate-900 border border-sky-100 dark:border-slate-800 text-[10px] font-black uppercase tracking-[0.2em] text-sky-600 dark:text-sky-400 mb-6 md:mb-8">
-                <Icon name="Zap" size={12} className="fill-current" />
-                PMP® Certified Professional
-            </div>
-            
-            <h1 className="reveal active delay-200 text-4xl md:text-7xl lg:text-8xl font-black tracking-tighter leading-[1.1] md:leading-[0.9] text-slate-950 dark:text-white mb-6 md:mb-8">
-                Strategic <br className="hidden sm:block"/> 
-                IT Systems <br className="hidden sm:block"/>
-                <span className="text-sky-600 dark:text-sky-500">Leader.</span>
-            </h1>
-            
-            <p className="reveal active delay-300 text-sm md:text-xl text-slate-600 dark:text-slate-400 font-medium max-w-xl mb-10 md:mb-12 leading-relaxed">
-                Expert orchestration of high-stakes Cybersecurity & Infrastructure mandates. Globally recognized as <strong className="text-slate-950 dark:text-white font-extrabold">GB</strong>, redefining digital resilience through 27 years of elite technical oversight.
-            </p>
-            
-            <div className="reveal active delay-400 flex flex-wrap items-center justify-center lg:justify-start gap-5 w-full sm:w-auto">
-                <a href="#contact" className="w-full sm:w-auto px-10 py-4 bg-slate-950 dark:bg-white text-white dark:text-slate-950 rounded-2xl font-black text-xs uppercase tracking-widest hover:bg-sky-600 dark:hover:bg-sky-50 transition-all flex items-center justify-center gap-3 shadow-2xl shadow-slate-950/10 active:scale-95">
-                    Execute Strategy <Icon name="ArrowRight" size={16} />
-                </a>
-                <div className="flex items-center gap-4 text-slate-500 dark:text-slate-400 text-[10px] font-black uppercase tracking-[0.2em] px-4 py-2 border-l-2 border-slate-200 dark:border-slate-800">
-                    <Icon name="Globe" size={16} className="text-sky-600" /> Global Operations
-                </div>
-            </div>
-        </div>
-
-    </div>
-</section>
-
-
-                    <SectionDivider fill={isDarkMode ? "#0f172a" : "#f8fafc"} bg="transparent" />
-
-                    {/* --- Expertise Section --- */}
-                    <section id="expertise" className="py-24 px-6 bg-slate-50 dark:bg-slate-900 transition-colors duration-500">
-                        <div className="max-w-7xl mx-auto reveal">
-                            <div className="flex flex-col md:flex-row justify-between items-end gap-10 mb-20">
-                                <div className="max-w-xl">
-                                    <span className="text-sky-600 font-black uppercase tracking-[0.4em] text-[10px]">Strategic Framework</span>
-                                    <h2 className="text-4xl md:text-6xl font-black text-slate-950 dark:text-white tracking-tighter mt-4 leading-none">The GB <br/> Ecosystem.</h2>
+                        <div className="max-w-7xl mx-auto w-full grid grid-cols-1 lg:grid-cols-2 gap-12 md:gap-20 items-center relative z-10">
+                            <div className="flex flex-col text-center lg:text-left order-2 lg:order-1 items-center lg:items-start">
+                                <div className="reveal active delay-100 inline-flex items-center gap-2 px-3 py-1.5 rounded-lg bg-sky-50 dark:bg-slate-900 border border-sky-100 dark:border-slate-800 text-[10px] font-black uppercase tracking-[0.2em] text-sky-600 dark:text-sky-400 mb-6 md:mb-8">
+                                    <Icon name="Zap" size={12} className="fill-current" /> PMP® Certified Professional
                                 </div>
-                                <div className="max-w-xs space-y-4">
-                                    <div className="h-1.5 w-16 bg-sky-600 rounded-full"></div>
-                                    <p className="text-slate-500 dark:text-slate-400 text-[13px] font-bold leading-relaxed uppercase tracking-wide">
-                                        Orchestrating the convergence of security, infrastructure, and elite project governance.
-                                    </p>
+                                <h1 className="reveal active delay-200 text-4xl md:text-7xl lg:text-8xl font-black tracking-tighter leading-[1.1] md:leading-[0.9] text-slate-950 dark:text-white mb-6 md:mb-8">
+                                    Strategic <br className="hidden sm:block" />IT Systems <br className="hidden sm:block" />
+                                    <span className="text-sky-600 dark:text-sky-500">Leader.</span>
+                                </h1>
+                                <p className="reveal active delay-300 text-sm md:text-xl text-slate-600 dark:text-slate-400 font-medium max-w-xl mb-10 md:mb-12 leading-relaxed">
+                                    Expert orchestration of high-stakes Cybersecurity & Infrastructure mandates. Globally recognized as <strong className="text-slate-950 dark:text-white font-extrabold">GB</strong>, redefining digital resilience through 27 years of elite technical oversight.
+                                </p>
+                                <div className="reveal active delay-400 flex flex-wrap items-center justify-center lg:justify-start gap-5 w-full sm:w-auto">
+                                    <a href="#contact" className="w-full sm:w-auto px-10 py-4 bg-slate-950 dark:bg-white text-white dark:text-slate-950 rounded-2xl font-black text-xs uppercase tracking-widest hover:bg-sky-600 dark:hover:bg-sky-50 transition-all flex items-center justify-center gap-3 shadow-2xl shadow-slate-950/10 active:scale-95">
+                                        Execute Strategy <Icon name="ArrowRight" size={16} />
+                                    </a>
+                                    <div className="flex items-center gap-4 text-slate-500 dark:text-slate-400 text-[10px] font-black uppercase tracking-[0.2em] px-4 py-2 border-l-2 border-slate-200 dark:border-slate-800">
+                                        <Icon name="Globe" size={16} className="text-sky-600" /> Global Operations
+                                    </div>
                                 </div>
                             </div>
 
+                            {/* RESTORED IMAGE SECTION */}
+                            <div className="relative reveal active order-1 lg:order-2 w-full max-w-[340px] md:max-w-[500px] mx-auto lg:ml-auto">
+                                <div className="relative rounded-[3.5rem] md:rounded-[4rem] overflow-hidden border-[10px] md:border-[12px] border-white dark:border-slate-900 shadow-2xl aspect-[4/5] bg-slate-100 dark:bg-slate-800 group">
+                                    <div className="absolute inset-0 bg-gradient-to-t from-slate-950/80 via-transparent to-transparent z-10 opacity-60"></div>
+                                    <div className="absolute inset-0 z-20 pointer-events-none opacity-40 group-hover:opacity-60 transition-opacity">
+                                        <svg className="w-full h-full" viewBox="0 0 100 100">
+                                            <circle cx="80" cy="20" r="15" fill="none" stroke="white" strokeWidth="0.2" strokeDasharray="1 2"></circle>
+                                            <path d="M10 10 L30 10 L30 30" fill="none" stroke="white" strokeWidth="0.2"></path>
+                                            <rect x="70" y="70" width="20" height="20" fill="none" stroke="white" strokeWidth="0.1"></rect>
+                                        </svg>
+                                    </div>
+                                    <img src="https://images.unsplash.com/photo-1560250097-0b93528c311a?auto=format&fit=crop&q=80&w=800" alt="Gem Baysan - IT Systems Leader" className="w-full h-full object-cover transition-all duration-1000 group-hover:scale-110 brightness-110 grayscale-[0.2] group-hover:grayscale-0" />
+                                    
+                                    <div className="absolute bottom-8 left-8 md:bottom-12 md:left-12 z-30">
+                                        <div className="bg-white/10 backdrop-blur-xl p-6 md:p-8 rounded-[2rem] md:rounded-[2.5rem] border border-white/20 shadow-2xl transition-transform group-hover:scale-105">
+                                            <div className="flex items-center gap-3 mb-2">
+                                                <Icon name="Cpu" size={18} className="text-sky-400" />
+                                                <span className="text-white text-[10px] font-black uppercase tracking-[0.2em]">Systems Architect</span>
+                                            </div>
+                                            <p className="text-white text-2xl md:text-3xl font-black tracking-tighter">Gem Baysan</p>
+                                        </div>
+                                    </div>
+                                </div>
+                                
+                                <div className="absolute -top-6 -left-6 md:-top-10 md:-left-10 bg-white dark:bg-slate-900 p-5 md:p-6 rounded-2xl md:rounded-3xl shadow-2xl border border-slate-100 dark:border-slate-800 animate-bounce-slow flex items-center justify-center z-40">
+                                    <Icon name="Shield" size={28} className="text-sky-600 md:w-8 md:h-8" />
+                                </div>
+                                <div className="absolute -bottom-4 -right-4 md:-bottom-6 md:-right-6 bg-slate-950 dark:bg-sky-600 p-5 md:p-6 rounded-2xl md:rounded-3xl text-white shadow-2xl animate-float flex items-center justify-center z-40">
+                                    <Icon name="Lock" size={28} className="md:w-8 md:h-8" />
+                                </div>
+                            </div>
+                        </div>
+
+                        <div className="absolute bottom-0 left-0 w-full">
+                            <SectionDivider fill={isDarkMode ? "#0f172a" : "#f8fafc"} bg="transparent" />
+                        </div>
+                    </section>
+
+                    <section id="expertise" className="py-24 px-6 bg-slate-50 dark:bg-slate-900 transition-colors">
+                        <div className="max-w-7xl mx-auto">
+                            <div className="flex flex-col items-center text-center mb-16 reveal">
+                                <h2 className="text-3xl md:text-5xl font-black tracking-tight dark:text-white mb-4">Core Competencies</h2>
+                                <div className="h-1.5 w-20 bg-sky-600 rounded-full"></div>
+                            </div>
                             <div className="grid md:grid-cols-3 gap-8">
                                 {[
-                                    { 
-                                        icon: "Lock", 
-                                        title: "Cyber Resilience", 
-                                        desc: "Implementation of Zero-Trust architectures and proactive threat-hunting protocols for modern enterprises.",
-                                        tags: ["ISO 27001", "NIST", "Risk"]
-                                    },
-                                    { 
-                                        icon: "Server", 
-                                        title: "Core Infrastructure", 
-                                        desc: "Data center transformation and hybrid-cloud orchestration focused on zero-downtime scaling.",
-                                        tags: ["SD-WAN", "Azure", "AWS"]
-                                    },
-                                    { 
-                                        icon: "Briefcase", 
-                                        title: "Executive Delivery", 
-                                        desc: "PMP-led governance for multi-million dollar portfolios ensuring 100% KPI alignment and fiscal transparency.",
-                                        tags: ["Agile", "PMO", "Six Sigma"]
-                                    }
+                                    { icon: "Lock", title: "Cyber Resilience", desc: "Zero-Trust architecture implementation and proactive threat-hunting protocols to safeguard data integrity." },
+                                    { icon: "Server", title: "Infrastructure", desc: "Elite hybrid-cloud orchestration, disaster recovery planning, and zero-downtime scaling strategies." },
+                                    { icon: "Cpu", title: "Systems Logic", desc: "Enterprise-grade technical oversight guided by rigorous PMP governance and strategic ROI analysis." }
                                 ].map((box, i) => (
-                                    <div key={i} className="group relative p-12 rounded-[3.5rem] bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-800 hover:border-sky-500 transition-all shadow-sm hover:shadow-2xl hover:shadow-sky-500/5 overflow-hidden">
-                                        <div className="w-16 h-16 rounded-2xl bg-sky-50 dark:bg-slate-900 flex items-center justify-center text-sky-600 shadow-inner mb-10 transition-transform group-hover:scale-110">
-                                            <Icon name={box.icon} size={32} />
+                                    <div key={i} className="reveal p-10 bg-white dark:bg-slate-800 rounded-[3rem] border border-slate-200 dark:border-slate-700 hover:border-sky-500 transition-all shadow-sm hover:shadow-xl group">
+                                        <div className="w-16 h-16 bg-slate-50 dark:bg-slate-900 rounded-2xl flex items-center justify-center mb-8 group-hover:bg-sky-600 transition-colors">
+                                            <Icon name={box.icon} size={32} className="text-sky-600 group-hover:text-white transition-colors" />
                                         </div>
-                                        <h3 className="text-xl font-black text-slate-950 dark:text-white mb-4">{box.title}</h3>
-                                        <p className="text-xs text-slate-500 dark:text-slate-400 leading-relaxed mb-10 font-medium">{box.desc}</p>
-                                        <div className="flex flex-wrap gap-2">
-                                            {box.tags.map(tag => (
-                                                <span key={tag} className="px-3 py-1 bg-slate-50 dark:bg-slate-700 rounded-lg text-[9px] font-black uppercase tracking-widest text-slate-400 dark:text-slate-300 border border-slate-100 dark:border-slate-600">{tag}</span>
-                                            ))}
-                                        </div>
+                                        <h3 className="text-xl font-black mb-4 dark:text-white">{box.title}</h3>
+                                        <p className="text-sm text-slate-500 dark:text-slate-400 leading-relaxed">{box.desc}</p>
                                     </div>
                                 ))}
                             </div>
@@ -326,58 +250,61 @@
 
                     <SectionDivider fill={isDarkMode ? "#020617" : "#ffffff"} bg={isDarkMode ? "bg-slate-900" : "bg-slate-50"} inverted />
 
-                    {/* --- Footer --- */}
-                    <footer id="contact" className="py-24 px-6 bg-white dark:bg-slate-950 transition-colors duration-500">
-                        <div className="max-w-7xl mx-auto reveal">
-                            <div className="bg-slate-950 dark:bg-sky-600 rounded-[4rem] p-12 md:p-32 text-center text-white relative shadow-3xl overflow-hidden">
-                                <div className="absolute inset-0 opacity-10 pointer-events-none">
-                                    <svg width="100%" height="100%">
-                                        <circle cx="50%" cy="50%" r="40%" fill="none" stroke="white" strokeWidth="2" strokeDasharray="10 20" />
-                                    </svg>
-                                </div>
-                                <div className="relative z-10">
-                                    <span className="inline-block text-[10px] font-black uppercase tracking-[0.5em] text-sky-400 dark:text-white/80 mb-8">Initiate Partnership</span>
-                                    <h2 className="text-5xl md:text-8xl font-black tracking-tighter mb-10 leading-[0.9]">Elevate Your <br/> Systems.</h2>
-                                    <div className="flex flex-wrap justify-center gap-8">
-                                        <a href="mailto:contact@gembaysan.com" className="group bg-white text-slate-950 px-12 py-6 rounded-[2.5rem] font-black text-xs uppercase tracking-[0.2em] hover:bg-sky-50 transition-all flex items-center gap-3 shadow-2xl">
-                                            <Icon name="Mail" size={18} className="group-hover:rotate-12 transition-transform" /> Message GB
-                                        </a>
-                                        <a href="#" className="bg-sky-600 dark:bg-slate-900 text-white px-12 py-6 rounded-[2.5rem] font-black text-xs uppercase tracking-[0.2em] hover:bg-sky-700 dark:hover:bg-slate-800 transition-all flex items-center gap-3">
-                                            <Icon name="Linkedin" size={18} /> LinkedIn
-                                        </a>
-                                    </div>
-                                </div>
+                    <section id="contact" className="py-24 px-6 bg-white dark:bg-slate-950">
+                        <div className="max-w-4xl mx-auto">
+                            <div className="text-center mb-16 reveal">
+                                <h2 className="text-4xl md:text-6xl font-black tracking-tighter dark:text-white">Let's Secure <br/> Your Future.</h2>
+                                <p className="mt-6 text-slate-500 dark:text-slate-400 font-medium tracking-wide uppercase text-[10px]">Open for strategic consulting & leadership roles</p>
                             </div>
 
-                            <div className="mt-28 pt-12 border-t border-slate-100 dark:border-slate-800 flex flex-col md:flex-row justify-between items-center gap-10">
-                                <div className="flex items-center gap-4">
-                                    <div className="bg-slate-950 dark:bg-slate-800 px-3 py-1.5 rounded-xl font-black text-sm text-white">GB</div>
-                                    <div className="text-left">
-                                        <p className="text-[11px] font-black text-slate-950 dark:text-white uppercase tracking-widest">Gem Baysan</p>
-                                        <p className="text-[9px] font-bold text-slate-400 uppercase tracking-tighter">&copy; {new Date().getFullYear()} Strategic Systems Leader</p>
-                                    </div>
+                            <form onSubmit={handleSubmit} className="grid grid-cols-1 md:grid-cols-2 gap-6 reveal">
+                                <div className="space-y-2">
+                                    <label className="text-[10px] font-black uppercase tracking-widest text-slate-400 ml-2">Full Name</label>
+                                    <input type="text" placeholder="Your name" className="form-input" required />
                                 </div>
-                                <div className="flex items-center gap-3 px-5 py-2.5 bg-slate-50 dark:bg-slate-900 rounded-2xl border border-slate-100 dark:border-slate-800 text-[10px] font-black text-slate-600 dark:text-slate-400 uppercase tracking-widest">
-                                    <Icon name="MapPin" size={14} className="text-sky-600" /> Vancouver, BC
+                                <div className="space-y-2">
+                                    <label className="text-[10px] font-black uppercase tracking-widest text-slate-400 ml-2">Email Address</label>
+                                    <input type="email" placeholder="email@address.com" className="form-input" required />
+                                </div>
+                                <div className="md:col-span-2 space-y-2">
+                                    <label className="text-[10px] font-black uppercase tracking-widest text-slate-400 ml-2">Project Brief / Inquiry</label>
+                                    <textarea rows="5" placeholder="Briefly describe the project, system requirements, or leadership opportunity..." className="form-input resize-none" required></textarea>
+                                </div>
+                                <button type="submit" className="md:col-span-2 w-full py-5 bg-sky-600 text-white font-black uppercase tracking-widest text-xs rounded-2xl hover:bg-sky-700 transition-all shadow-xl shadow-sky-500/20 active:scale-95">
+                                    Dispatch Message
+                                </button>
+                            </form>
+                            
+                            <div className="mt-20 flex flex-col items-center gap-6 reveal">
+                                <div className="flex gap-4">
+                                    <a href="#" className="p-4 bg-slate-50 dark:bg-slate-900 rounded-2xl hover:text-sky-600 transition-colors border border-slate-100 dark:border-slate-800"><Icon name="Linkedin" /></a>
+                                    <a href="#" className="p-4 bg-slate-50 dark:bg-slate-900 rounded-2xl hover:text-sky-600 transition-colors border border-slate-100 dark:border-slate-800"><Icon name="Github" /></a>
+                                    <a href="#" className="p-4 bg-slate-50 dark:bg-slate-900 rounded-2xl hover:text-sky-600 transition-colors border border-slate-100 dark:border-slate-800"><Icon name="Mail" /></a>
+                                </div>
+                                <div className="text-center">
+                                    <p className="text-[10px] font-bold text-slate-400 uppercase tracking-widest mb-1">&copy; 2026 Gem Baysan | Strategic IT Systems Leader</p>
+                                    <p className="text-[9px] font-bold text-slate-300 dark:text-slate-700 uppercase tracking-widest">Vancouver, BC • PMP® • ITIL®</p>
                                 </div>
                             </div>
                         </div>
-                    </footer>
+                    </section>
 
-                    {/* --- Mobile Menu --- */}
                     {mobileMenuOpen && (
                         <div className="fixed inset-0 z-[110] bg-white dark:bg-slate-950 p-8 flex flex-col animate-fade-in">
                             <div className="flex justify-between items-center mb-16">
-                                <span className="font-black text-2xl tracking-tighter text-sky-600">GB.</span>
-                                <button onClick={() => setMobileMenuOpen(false)} className="p-4 bg-slate-100 dark:bg-slate-900 rounded-2xl flex items-center justify-center"><Icon name="X" size={28} /></button>
+                                <div className="flex items-center gap-2">
+                                    <div className="bg-slate-950 dark:bg-sky-500 text-white px-2 py-1 rounded-lg text-sm font-black">GB</div>
+                                    <span className="font-black text-xl text-slate-900 dark:text-white uppercase tracking-tight">Gem Baysan</span>
+                                </div>
+                                <button onClick={() => setMobileMenuOpen(false)} className="p-3 bg-slate-100 dark:bg-slate-900 rounded-xl"><Icon name="X" size={20} /></button>
                             </div>
-                            <div className="flex flex-col gap-8">
-                                {['Home', 'About', 'Expertise', 'Contact'].map((item) => (
-                                    <a key={item} href={`#${item.toLowerCase()}`} onClick={() => setMobileMenuOpen(false)} 
-                                        className="text-6xl font-black tracking-tighter hover:text-sky-600 transition-all">
-                                        {item}
-                                    </a>
+                            <div className="flex flex-col gap-10">
+                                {['Expertise', 'Contact'].map((item) => (
+                                    <a key={item} href={`#${item.toLowerCase()}`} onClick={() => setMobileMenuOpen(false)} className="text-6xl font-black tracking-tighter hover:text-sky-600 transition-all dark:text-white">{item}</a>
                                 ))}
+                            </div>
+                            <div className="mt-auto pt-10 border-t border-slate-100 dark:border-slate-800">
+                                <a href="#contact" onClick={() => setMobileMenuOpen(false)} className="block w-full py-5 bg-slate-950 dark:bg-white text-white dark:text-slate-950 text-center font-black uppercase tracking-widest rounded-2xl">Execute Strategy</a>
                             </div>
                         </div>
                     )}
