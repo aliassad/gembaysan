@@ -102,7 +102,7 @@
     </nav>
 
     <!-- Hero Section -->
-    <section class="noise-bg relative min-h-screen flex items-center px-6 pt-0 overflow-hidden bg-white dark:bg-slate-950">
+    <section class="noise-bg relative min-h-[70vh] flex items-center px-6 pt-24 pb-12 overflow-hidden bg-white dark:bg-slate-950">
         <div class="absolute inset-0 opacity-[0.04] dark:opacity-[0.07] pointer-events-none" style="background-image: linear-gradient(#000 1px, transparent 1px), linear-gradient(90deg, #000 1px, transparent 1px); background-size: 60px 60px;"></div>
         
         <div class="max-w-7xl mx-auto w-full grid grid-cols-12 gap-4 md:gap-16 items-center relative z-10">
@@ -131,14 +131,14 @@
                     </p>
                 </div>
                 
-                <div class="reveal active mt-8 md:mt-10 flex flex-wrap gap-3 md:gap-4">
+                <div class="reveal active mt-6 md:mt-10 flex flex-wrap gap-3 md:gap-4">
                     <a href="#contact" class="px-5 py-3 md:px-8 md:py-4 bg-slate-950 dark:bg-sky-600 text-white font-black text-[10px] md:text-xs uppercase tracking-[0.2em] hover:bg-sky-600 dark:hover:bg-sky-500 transition-all shadow-xl flex items-center gap-2 md:gap-3 group">
                         Contact <i class="fa-solid fa-arrow-right group-hover:translate-x-1 transition-transform"></i>
                     </a>
                 </div>
             </div>
 
-            <!-- Image Area: Visible on mobile and desktop as a side element -->
+            <!-- Image Area: Side element -->
             <div class="col-span-4 lg:col-span-5 relative order-2">
                 <div class="relative group w-full max-w-[140px] md:max-w-sm ml-auto">
                     <div class="absolute -inset-1 md:-inset-3 border border-slate-200 dark:border-slate-800 -z-10"></div>
@@ -149,6 +149,7 @@
                             src="profile.jpeg" 
                             alt="Gem Baysan" 
                             class="w-full aspect-[4/5] object-cover grayscale-[0.3] hover:grayscale-0 transition-all duration-1000"
+                            onerror="this.src='profile.jpeg'"
                         />
                     </div>
                 </div>
