@@ -50,7 +50,7 @@
 
         /* Fluid Typography and Utilities */
         .text-hero {
-            font-size: clamp(2.5rem, 8vw, 6rem); /* Reduced from 9rem */
+            font-size: clamp(2rem, 10vw, 6rem); 
             line-height: 1;
         }
     </style>
@@ -64,7 +64,7 @@
                 <div class="bg-slate-950 dark:bg-sky-500 text-white w-10 h-10 flex items-center justify-center font-black transition-all group-hover:bg-sky-600 shadow-sm">GB</div>
                 <div class="flex flex-col">
                     <span class="font-black text-lg tracking-tighter uppercase leading-none text-slate-900 dark:text-white">Gem Baysan</span>
-                    <span class="text-[9px] font-bold text-sky-600 dark:text-sky-400 uppercase tracking-[0.3em] mt-1">Infrastructure & Cybersecurity Project Manager</span>
+                    <span class="text-[9px] font-bold text-sky-600 dark:text-sky-400 uppercase tracking-[0.3em] mt-1">Infra & Cybersecurity Project Manager</span>
                 </div>
             </div>
 
@@ -102,64 +102,47 @@
     </nav>
 
     <!-- Hero Section -->
-    <section class="noise-bg relative min-h-screen flex items-center px-6 pt-28 md:pt-20 overflow-hidden bg-white dark:bg-slate-950">
+    <section class="noise-bg relative min-h-screen flex items-center px-6 pt-20 overflow-hidden bg-white dark:bg-slate-950">
         <div class="absolute inset-0 opacity-[0.04] dark:opacity-[0.07] pointer-events-none" style="background-image: linear-gradient(#000 1px, transparent 1px), linear-gradient(90deg, #000 1px, transparent 1px); background-size: 60px 60px;"></div>
         
-        <div class="max-w-7xl mx-auto w-full grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-16 items-center relative z-10">
+        <div class="max-w-7xl mx-auto w-full grid grid-cols-12 gap-4 md:gap-16 items-center relative z-10">
             
-            <!-- Mobile Image Container -->
-            <div class="lg:hidden reveal active mb-6">
-                <div class="relative max-w-[200px] mx-auto group">
-                    <div class="absolute -inset-2 border border-slate-200 dark:border-slate-800 -z-10"></div>
-                    <div class="relative overflow-hidden shadow-lg bg-slate-100 dark:bg-slate-900">
-                        <img 
-                            src="profile.jpeg" 
-                            alt="Gem Baysan" 
-                            class="w-full aspect-[4/5] object-cover grayscale-[0.2]"
-                        />
-                    </div>
-                </div>
-            </div>
-
-            <!-- Content Area -->
-            <div class="lg:col-span-7 lg:order-1 order-2">
-                <div class="reveal active flex items-center gap-3 mb-6">
-                    <span class="h-[2px] w-12 bg-sky-600"></span>
-                    <span class="text-[10px] font-black uppercase tracking-[0.2em] text-sky-600">
+            <!-- Shared Image/Content Layout for Mobile and Desktop -->
+            <div class="col-span-8 lg:col-span-7 order-1">
+                <div class="reveal active flex items-center gap-2 md:gap-3 mb-4 md:mb-6">
+                    <span class="h-[2px] w-8 md:w-12 bg-sky-600"></span>
+                    <span class="text-[8px] md:text-[10px] font-black uppercase tracking-[0.2em] text-sky-600">
                         Vancouver, BC · BTech · PMP · CC
                     </span>
                 </div>
                 
-                <h1 class="reveal active text-hero font-black tracking-tighter mb-6 text-slate-900 dark:text-white uppercase">
+                <h1 class="reveal active text-hero font-black tracking-tighter mb-4 md:mb-6 text-slate-900 dark:text-white uppercase">
                     GEM<br />
                     <span class="text-sky-600">BAYSAN</span>
                 </h1>
 
-                <div class="reveal active flex flex-col gap-6 items-start">
-                    <div class="text-[10px] font-bold uppercase tracking-widest text-slate-500 leading-relaxed max-w-xl">
+                <div class="reveal active flex flex-col gap-4 md:gap-6 items-start">
+                    <div class="text-[9px] md:text-[10px] font-bold uppercase tracking-widest text-slate-500 leading-relaxed max-w-xl">
                         Cybersecurity Certified / Infrastructure Project Manager · Bachelor of Technology
                     </div>
                     
-                    <p class="text-base md:text-lg text-slate-600 dark:text-slate-400 max-w-lg font-medium leading-relaxed border-l-4 border-sky-600 pl-6">
+                    <p class="text-sm md:text-lg text-slate-600 dark:text-slate-400 max-w-lg font-medium leading-relaxed border-l-4 border-sky-600 pl-4 md:pl-6">
                         I lead cybersecurity and infrastructure projects with clear scope, solid governance, and predictable execution.
                     </p>
                 </div>
                 
-                <div class="reveal active mt-10 flex flex-wrap gap-4">
-                    <a href="#contact" class="px-8 py-4 bg-slate-950 dark:bg-sky-600 text-white font-black text-xs uppercase tracking-[0.2em] hover:bg-sky-600 dark:hover:bg-sky-500 transition-all shadow-xl flex items-center gap-3 group w-full sm:w-auto justify-center">
+                <div class="reveal active mt-8 md:mt-10 flex flex-wrap gap-3 md:gap-4">
+                    <a href="#contact" class="px-5 py-3 md:px-8 md:py-4 bg-slate-950 dark:bg-sky-600 text-white font-black text-[10px] md:text-xs uppercase tracking-[0.2em] hover:bg-sky-600 dark:hover:bg-sky-500 transition-all shadow-xl flex items-center gap-2 md:gap-3 group">
                         Contact <i class="fa-solid fa-arrow-right group-hover:translate-x-1 transition-transform"></i>
-                    </a>
-                    <a href="#profile" class="px-8 py-4 border-2 border-slate-900 dark:border-slate-700 font-black text-xs uppercase tracking-[0.2em] hover:bg-slate-900 hover:text-white dark:hover:bg-slate-700 transition-all w-full sm:w-auto text-center">
-                        Profile
                     </a>
                 </div>
             </div>
 
-            <!-- Desktop Image Area -->
-            <div class="lg:col-span-5 relative hidden lg:block lg:order-2">
-                <div class="relative group max-w-sm ml-auto">
-                    <div class="absolute -inset-3 border border-slate-200 dark:border-slate-800 -z-10 group-hover:scale-[1.01] transition-transform duration-700"></div>
-                    <div class="absolute top-0 right-0 w-16 h-16 border-t border-r border-sky-600 -translate-y-2 translate-x-2"></div>
+            <!-- Image Area: Visible on mobile and desktop as a side element -->
+            <div class="col-span-4 lg:col-span-5 relative order-2">
+                <div class="relative group w-full max-w-[140px] md:max-w-sm ml-auto">
+                    <div class="absolute -inset-1 md:-inset-3 border border-slate-200 dark:border-slate-800 -z-10"></div>
+                    <div class="absolute top-0 right-0 w-8 h-8 md:w-16 md:h-16 border-t border-r border-sky-600 -translate-y-1 translate-x-1 md:-translate-y-2 md:translate-x-2"></div>
                     
                     <div class="relative overflow-hidden shadow-2xl bg-slate-100 dark:bg-slate-900">
                         <img 
